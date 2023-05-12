@@ -19,20 +19,22 @@ func main() {
 	influxTable := flag.String("influxTable", "", "")
 	computerName := flag.String("computerName", "", "")
 
+	flag.Parse()
+
 	if len(os.Args) < 4 {
 		fmt.Println("expected 'influxUrl', 'influxAuth', 'influxTable', 'computerName' arguments")
 		os.Exit(1)
-	}
-
-	s, err := gosensors.NewFromSystem()
-	if err != nil {
-		panic(err)
 	}
 
 	fmt.Println("influxUrl:", *influxUrl)
 	fmt.Println("influxAuth:", *influxAuth)
 	fmt.Println("influxTable:", *influxTable)
 	fmt.Println("computerName:", *computerName)
+
+	s, err := gosensors.NewFromSystem()
+	if err != nil {
+		panic(err)
+	}
 
 	client := influxdb2.NewClient(*influxUrl, *influxAuth)
 	writeAPI := client.WriteAPIBlocking("", *influxTable)
