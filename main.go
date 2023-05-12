@@ -29,8 +29,8 @@ func main() {
 		panic(err)
 	}
 
-	client := influxdb2.NewClient(influxUrl, influxAuth)
-	writeAPI := client.WriteAPIBlocking("", influxTable)
+	client := influxdb2.NewClient(*influxUrl, *influxAuth)
+	writeAPI := client.WriteAPIBlocking("", *influxTable)
 
 	var CPUTemp, SSDTemp float64
 
@@ -59,8 +59,8 @@ func main() {
 	p := influxdb2.NewPointWithMeasurement("lenovo").
 		AddField("cpu_temperature", CPUTemp).
 		AddField("ssd_temperature", SSDTemp).
-		AddField("computer_name", computerName).
-		SetTime(recordedDate.Date)
+		AddField("computer_name", *computerName).
+		SetTime(recordedDate)
 
 	err = writeAPI.WritePoint(context.Background(), p)
 	if err != nil {
