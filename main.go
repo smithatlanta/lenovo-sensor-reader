@@ -29,6 +29,11 @@ func main() {
 		panic(err)
 	}
 
+	fmt.Println("influxUrl:", influxUrl)
+	fmt.Println("influxAuth:", influxAuth)
+	fmt.Println("influxTable:", influxTable)
+	fmt.Println("computerName:", computerName)
+
 	client := influxdb2.NewClient(*influxUrl, *influxAuth)
 	writeAPI := client.WriteAPIBlocking("", *influxTable)
 
